@@ -58,6 +58,7 @@ class CalculatorApp(ft.Container):
                 ft.Row(controls=[self.result], alignment="end"),
                 ft.Row(
                     controls=[
+                        ControlButton(text="π", button_clicked=self.button_clicked),
                         ExtraActionButton(
                             text="AC", button_clicked=self.button_clicked
                         ),
@@ -147,6 +148,13 @@ class CalculatorApp(ft.Container):
                 self.result.value = str(
                     self.format_number(abs(float(self.result.value)))
                 )
+        
+        elif data == "π":
+           if self.result.value == "Error" or float(self.result.value) == 0:
+               self.result.value = "3.14159265359"
+           else:
+               self.result.value = float(self.result.value) * 3.14159265359
+        self.reset()
 
 
         self.update()
