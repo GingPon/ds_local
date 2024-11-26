@@ -73,6 +73,7 @@ class CalculatorApp(ft.Container):
                 ),
                 ft.Row(
                     controls=[
+                        ControlButton(text="³√x", button_clicked=self.button_clicked),
                         ControlButton(text="x²", button_clicked=self.button_clicked),
                         DigitButton(text="7", button_clicked=self.button_clicked),
                         DigitButton(text="8", button_clicked=self.button_clicked),
@@ -190,6 +191,14 @@ class CalculatorApp(ft.Container):
                 self.result.value = "Error"
             else:
                 self.result.value = str(math.sqrt(float(self.result.value)))
+            self.reset()
+
+
+        elif data == "³√x":
+            if self.result.value == "Error" or float(self.result.value) < 0:
+                self.result.value = "Error"
+            else:
+                self.result.value = str(float(self.result.value) ** (1/3))
             self.reset()
 
 
