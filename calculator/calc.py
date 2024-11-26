@@ -36,11 +36,21 @@ class ExtraActionButton(CalcButton):
 class ControlButton(CalcButton):
    def __init__(self, text, button_clicked, expand=1, width=50, height=50):
        CalcButton.__init__(self, text, button_clicked)
-       self.bgcolor = ft.colors.BLUE_GREY_100
+       self.bgcolor = ft.colors.ORANGE
        self.color = ft.colors.BLACK
        self.width = width
        self.height = height
        self.expand = expand
+
+
+class SpacerButton(ft.ElevatedButton):
+    def __init__(self, width=50, height=50):
+        super().__init__()
+        self.width = width
+        self.height = height
+        self.opacity = 0
+        self.text = ""
+        self.content = ft.Container(width=width, height=height)
 
 
 class CalculatorApp(ft.Container):
@@ -50,7 +60,7 @@ class CalculatorApp(ft.Container):
         self.reset()
 
         self.result = ft.Text(value="0", color=ft.colors.WHITE, size=20)
-        self.width = 350
+        self.width = 600
         self.bgcolor = ft.colors.BLACK
         self.border_radius = ft.border_radius.all(20)
         self.padding = 20
@@ -83,6 +93,7 @@ class CalculatorApp(ft.Container):
                 ),
                 ft.Row(
                     controls=[
+                        SpacerButton(width=60, height=60),
                         ControlButton(text="x³", button_clicked=self.button_clicked),
                         DigitButton(text="4", button_clicked=self.button_clicked),
                         DigitButton(text="5", button_clicked=self.button_clicked),
@@ -92,6 +103,7 @@ class CalculatorApp(ft.Container):
                 ),
                 ft.Row(
                     controls=[
+                        SpacerButton(width=60, height=60),
                         ControlButton(text="!", button_clicked=self.button_clicked),
                         DigitButton(text="1", button_clicked=self.button_clicked),
                         DigitButton(text="2", button_clicked=self.button_clicked),
@@ -101,6 +113,7 @@ class CalculatorApp(ft.Container):
                 ),
                 ft.Row(
                     controls=[
+                        SpacerButton(width=60, height=60),
                         ControlButton(text="e", button_clicked=self.button_clicked),
                         DigitButton(
                             text="0", expand=2, button_clicked=self.button_clicked
