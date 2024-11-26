@@ -80,6 +80,7 @@ class CalculatorApp(ft.Container):
                 ),
                 ft.Row(
                     controls=[
+                        ControlButton(text="x³", button_clicked=self.button_clicked),
                         DigitButton(text="4", button_clicked=self.button_clicked),
                         DigitButton(text="5", button_clicked=self.button_clicked),
                         DigitButton(text="6", button_clicked=self.button_clicked),
@@ -163,6 +164,14 @@ class CalculatorApp(ft.Container):
                 self.result.value = "0"
             else:
                 self.result.value = float(self.result.value) ** 2
+            self.reset()
+
+
+        elif data in "x³":
+            if self.result.value == "Error" or float(self.result.value) == 0:
+                self.result.value = "0"
+            else:
+                self.result.value = float(self.result.value) ** 3
             self.reset()
 
 
