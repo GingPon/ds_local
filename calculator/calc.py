@@ -1,4 +1,5 @@
 import flet as ft
+import math
 
 
 class CalcButton(ft.ElevatedButton):
@@ -58,6 +59,7 @@ class CalculatorApp(ft.Container):
                 ft.Row(controls=[self.result], alignment="end"),
                 ft.Row(
                     controls=[
+                        ControlButton(text="²√x", button_clicked=self.button_clicked),
                         ControlButton(text="π", button_clicked=self.button_clicked),
                         ExtraActionButton(
                             text="AC", button_clicked=self.button_clicked
@@ -180,6 +182,14 @@ class CalculatorApp(ft.Container):
                 self.result.value = "Error"
             else:
                 self.result.value = str(self.factorial(int(float(self.result.value))))
+            self.reset()
+
+
+        elif data in ("²√x"):
+            if self.result.value == "Error" or float(self.result.value) < 0:
+                self.result.value = "Error"
+            else:
+                self.result.value = str(math.sqrt(float(self.result.value)))
             self.reset()
 
 
