@@ -1,4 +1,5 @@
 import flet as ft
+import math
 
 
 class CalcButton(ft.ElevatedButton):
@@ -32,6 +33,26 @@ class ExtraActionButton(CalcButton):
         self.color = ft.colors.BLACK
 
 
+class ControlButton(CalcButton):
+   def __init__(self, text, button_clicked, expand=1, width=50, height=50):
+       CalcButton.__init__(self, text, button_clicked)
+       self.bgcolor = ft.colors.ORANGE
+       self.color = ft.colors.BLACK
+       self.width = width
+       self.height = height
+       self.expand = expand
+
+
+class SpacerButton(ft.ElevatedButton):
+    def __init__(self, width=50, height=50):
+        super().__init__()
+        self.width = width
+        self.height = height
+        self.opacity = 0
+        self.text = ""
+        self.content = ft.Container(width=width, height=height)
+
+
 class CalculatorApp(ft.Container):
     # application's root control (i.e. "view") containing all other controls
     def __init__(self):
@@ -39,7 +60,7 @@ class CalculatorApp(ft.Container):
         self.reset()
 
         self.result = ft.Text(value="0", color=ft.colors.WHITE, size=20)
-        self.width = 350
+        self.width = 600
         self.bgcolor = ft.colors.BLACK
         self.border_radius = ft.border_radius.all(20)
         self.padding = 20
@@ -48,6 +69,8 @@ class CalculatorApp(ft.Container):
                 ft.Row(controls=[self.result], alignment="end"),
                 ft.Row(
                     controls=[
+                        ControlButton(text="²√x", button_clicked=self.button_clicked),
+                        ControlButton(text="π", button_clicked=self.button_clicked),
                         ExtraActionButton(
                             text="AC", button_clicked=self.button_clicked
                         ),
@@ -60,6 +83,8 @@ class CalculatorApp(ft.Container):
                 ),
                 ft.Row(
                     controls=[
+                        ControlButton(text="³√x", button_clicked=self.button_clicked),
+                        ControlButton(text="x²", button_clicked=self.button_clicked),
                         DigitButton(text="7", button_clicked=self.button_clicked),
                         DigitButton(text="8", button_clicked=self.button_clicked),
                         DigitButton(text="9", button_clicked=self.button_clicked),
@@ -68,6 +93,8 @@ class CalculatorApp(ft.Container):
                 ),
                 ft.Row(
                     controls=[
+                        SpacerButton(width=60, height=60),
+                        ControlButton(text="x³", button_clicked=self.button_clicked),
                         DigitButton(text="4", button_clicked=self.button_clicked),
                         DigitButton(text="5", button_clicked=self.button_clicked),
                         DigitButton(text="6", button_clicked=self.button_clicked),
@@ -76,6 +103,8 @@ class CalculatorApp(ft.Container):
                 ),
                 ft.Row(
                     controls=[
+                        SpacerButton(width=60, height=60),
+                        ControlButton(text="!", button_clicked=self.button_clicked),
                         DigitButton(text="1", button_clicked=self.button_clicked),
                         DigitButton(text="2", button_clicked=self.button_clicked),
                         DigitButton(text="3", button_clicked=self.button_clicked),
@@ -84,6 +113,8 @@ class CalculatorApp(ft.Container):
                 ),
                 ft.Row(
                     controls=[
+                        SpacerButton(width=60, height=60),
+                        ControlButton(text="e", button_clicked=self.button_clicked),
                         DigitButton(
                             text="0", expand=2, button_clicked=self.button_clicked
                         ),
@@ -137,9 +168,70 @@ class CalculatorApp(ft.Container):
                 self.result.value = str(
                     self.format_number(abs(float(self.result.value)))
                 )
+        
+        elif data in "π":
+            if self.result.value == "Error" or float(self.result.value) == 0:
+                self.result.value = "3.14159265359"
+            else:
+                self.result.value = float(self.result.value) * 3.14159265359
+            self.reset()
 
+
+        elif data in "x²":
+            if self.result.value == "Error" or float(self.result.value) == 0:
+                self.result.value = "0"
+            else:
+                self.result.value = float(self.result.value) ** 2
+            self.reset()
+
+
+        elif data in "x³":
+            if self.result.value == "Error" or float(self.result.value) == 0:
+                self.result.value = "0"
+            else:
+                self.result.value = float(self.result.value) ** 3
+            self.reset()
+
+        elif data in ("!"):
+            if self.result.value == "Error" or float(self.result.value) < 0:
+                self.result.value = "Error"
+            else:
+                self.result.value = str(self.factorial(int(float(self.result.value))))
+            self.reset()
+
+
+        elif data in ("²√x"):
+            if self.result.value == "Error" or float(self.result.value) < 0:
+                self.result.value = "Error"
+            else:
+                self.result.value = str(math.sqrt(float(self.result.value)))
+            self.reset()
+
+
+        elif data == "³√x":
+            if self.result.value == "Error" or float(self.result.value) < 0:
+                self.result.value = "Error"
+            else:
+                self.result.value = str(float(self.result.value) ** (1/3))
+            self.reset()
+
+
+        elif data == "e":
+            if self.result.value == "Error" or float(self.result.value) == 0:
+                self.result.value = str(math.e) 
+            else:
+                self.result.value = str(float(self.result.value) * math.e)
+            self.reset()
 
         self.update()
+
+
+    def factorial(self, n):
+        if n == 0:
+            return 1
+        else:
+            return n * self.factorial(n-1)
+
 
     def format_number(self, num):
         if num % 1 == 0:
