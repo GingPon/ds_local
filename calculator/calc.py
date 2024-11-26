@@ -101,6 +101,7 @@ class CalculatorApp(ft.Container):
                 ),
                 ft.Row(
                     controls=[
+                        ControlButton(text="e", button_clicked=self.button_clicked),
                         DigitButton(
                             text="0", expand=2, button_clicked=self.button_clicked
                         ),
@@ -201,6 +202,13 @@ class CalculatorApp(ft.Container):
                 self.result.value = str(float(self.result.value) ** (1/3))
             self.reset()
 
+
+        elif data == "e":
+            if self.result.value == "Error" or float(self.result.value) == 0:
+                self.result.value = str(math.e) 
+            else:
+                self.result.value = str(float(self.result.value) * math.e)
+            self.reset()
 
         self.update()
 
