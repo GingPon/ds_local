@@ -32,6 +32,16 @@ class ExtraActionButton(CalcButton):
         self.color = ft.colors.BLACK
 
 
+class ControlButton(CalcButton):
+   def __init__(self, text, button_clicked, expand=1, width=50, height=50):
+       CalcButton.__init__(self, text, button_clicked)
+       self.bgcolor = ft.colors.BLUE_GREY_100
+       self.color = ft.colors.BLACK
+       self.width = width
+       self.height = height
+       self.expand = expand
+
+
 class CalculatorApp(ft.Container):
     # application's root control (i.e. "view") containing all other controls
     def __init__(self):
